@@ -1,0 +1,27 @@
+{
+  "$schema": "https://tree-sitter.github.io/tree-sitter/assets/schemas/config.schema.json",
+  "grammars": [
+    {
+      "name": "varlink",
+      "path": ".",
+      "scope": "source.varlink",
+      "file-types": [
+        "varlink"
+      ],
+      "highlights": "queries/highlights.scm",
+      "tags": "queries/tags.scm"
+    }
+  ],
+  "metadata": {
+    "links": {
+      "repository": "https://github.com/bachorp/tree-sitter-varlink"
+    },
+    "version": "0.1.0",
+    "license": "MIT",
+    "authors": [
+      {
+        "name": "Pascal Bachor"
+      }
+    ]
+  }
+}

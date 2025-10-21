@@ -1,0 +1,67 @@
+==================
+Full example
+==================
+# comment
+interface tld.sub
+
+type MyType (a)
+
+method MyMethod () -> (
+    t: T,
+    b: bool,
+    i: int,
+    f: float,
+    s: string,
+    o: object,
+    a: ?[]()
+)
+
+error MyError ()
+
+---
+(interface
+  (comment)
+  (interface_decl
+    (interface_name))
+  (eol)
+  (typedef
+    (name)
+    (enum
+      (field_name)))
+  (eol)
+  (method
+    (name)
+    (struct)
+    (struct
+      (struct_field
+        (field_name)
+        (type
+          (name)))
+      (struct_field
+        (field_name)
+        (type))
+      (struct_field
+        (field_name)
+        (type))
+      (struct_field
+        (field_name)
+        (type))
+      (struct_field
+        (field_name)
+        (type))
+      (struct_field
+        (field_name)
+        (type))
+      (struct_field
+        (field_name)
+        (type
+          (maybe
+            (type
+              (array
+                (type
+                  (struct)))))))))
+  (eol)
+  (error
+    (name)
+    (struct))
+  (eol))

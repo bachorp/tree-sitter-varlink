@@ -1,0 +1,43 @@
+==================
+Missing newline
+:error
+==================
+interface a.b
+type A (a)
+---
+
+==================
+Missing separator
+:error
+==================
+interfacea.b
+
+---
+
+==================
+Excess whitespace
+==================
+interface a.b
+type A (x: ? int, y: [] string, z: [string] string)
+
+---
+(interface
+  (interface_decl
+    (interface_name))
+  (eol)
+  (typedef
+    (name)
+    (struct
+      (struct_field
+        (field_name)
+        (ERROR)
+        (type))
+      (struct_field
+        (field_name)
+        (ERROR)
+        (type))
+      (struct_field
+        (field_name)
+        (ERROR)
+        (type))))
+  (eol))

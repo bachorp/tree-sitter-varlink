@@ -1,0 +1,12 @@
+on:
+  push: null
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@1af3b93b6815bc44a9784bd300feb67ff0d1eeb3 # v6.0.0
+      - uses: tree-sitter/setup-action/cli@c4c258862a6a7e43a7aef152256bbf659972c408 # v2
+      - uses: tree-sitter/parser-test-action@05f6ce7c7e54603c45cd87ed926725dc870bcc63 # v3
+        with:
+          test-rust: true

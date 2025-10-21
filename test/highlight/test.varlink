@@ -1,0 +1,46 @@
+interface a.b
+# <- keyword.control.interface.varlink
+#         ^ string.unquoted.interface.varlink
+
+method M () -> (
+# <- keyword.other.method.varlink
+#      ^ entity.name.function.varlink
+#        ^ punctuation.brackets.round.varlink
+#         ^ punctuation.brackets.round.varlink
+#           ^ storage.type.function.arrow.varlink
+
+    t: T,
+#   ^ entity.other.attribute-name.varlink
+#    ^ keyword.operator.key-value.varlink
+#      ^ entity.name.type.varlink
+#       ^ punctuation.separator.comma.varlink
+
+    b: bool,
+#      ^ support.type.primitive.varlink
+
+    i: int,
+#      ^ support.type.primitive.varlink
+
+    f: float,
+#      ^ support.type.primitive.varlink
+
+    s: string,
+#      ^ support.type.primitive.varlink
+
+    o: object,
+#      ^ support.type.primitive.varlink
+
+    a: ?[]()
+#      ^ keyword.operator.nullable.varlink
+#       ^ punctuation.brackets.square.varlink
+#        ^ punctuation.brackets.square.varlink
+)
+
+type T (a)
+# <- keyword.other.typedef.varlink
+#    ^ entity.name.type.varlink
+#       ^ string.unquoted.enum-member.varlink
+
+error E ()
+# <- keyword.other.error.varlink
+#     ^ entity.name.error-type.varlink

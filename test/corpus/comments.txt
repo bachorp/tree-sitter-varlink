@@ -1,0 +1,15 @@
+==================
+Comments
+==================
+# comment
+interface# comment
+a.b #comment
+
+---
+(interface
+  (comment)
+  (interface_decl
+    (comment)
+    (interface_name))
+  (comment)
+  (eol))

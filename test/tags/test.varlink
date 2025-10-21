@@ -1,0 +1,12 @@
+interface a.b
+#         ^ definition.interface
+
+type T (x: T)
+#    ^ definition.type
+#          ^ reference.type
+
+method M() -> ()
+#      ^ definition.method
+
+error E ()
+#     ^ definition.error
