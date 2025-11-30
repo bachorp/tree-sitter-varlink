@@ -5,20 +5,24 @@ on:
 
 permissions:
   contents: write
-  id-token: write 
+  id-token: write
 
 jobs:
   release:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     steps:
+      - uses: actions/checkout@1af3b93b6815bc44a9784bd300feb67ff0d1eeb3 # v6.0.0
       - uses: tree-sitter/setup-action/cli@c4c258862a6a7e43a7aef152256bbf659972c408 # v2
+        with:
+          tree-sitter-ref: v0.25.10
+          rust-toolchain: 1.91.1
+
       - uses: mymindstorm/setup-emsdk@6ab9eb1bda2574c4ddb79809fc9247783eaf9021 # v14
         with:
           version: 3.1.69
 
-      - uses: actions/checkout@1af3b93b6815bc44a9784bd300feb67ff0d1eeb3 # v6.0.0
       - run: tree-sitter generate
-      - name: Create source code tarball
+      - name: Create source tarball
         run: |
           git ls-files > files
           find src >> files
