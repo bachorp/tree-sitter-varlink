@@ -8,8 +8,10 @@ a.b #comment
 ---
 (interface
   (comment)
-  (interface_decl
+  (eol)
+  (interface_declaration
     (comment)
+    (eol)
     (interface_name))
   (comment)
   (eol))

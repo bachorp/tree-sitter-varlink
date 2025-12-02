@@ -1,10 +1,17 @@
 ==================
 Missing newline
-:error
 ==================
 interface a.b
 type A (a)
 ---
+(interface
+  (interface_declaration
+    (interface_name))
+  (eol)
+  (typedef
+    (name)
+    (enum
+      (field_name))))
 
 ==================
 Missing separator
@@ -22,7 +29,7 @@ type A (x: ? int, y: [] string, z: [string] string)
 
 ---
 (interface
-  (interface_decl
+  (interface_declaration
     (interface_name))
   (eol)
   (typedef
@@ -30,14 +37,20 @@ type A (x: ? int, y: [] string, z: [string] string)
     (struct
       (struct_field
         (field_name)
-        (ERROR)
-        (type))
+        (type
+          (maybe
+            (ERROR)
+            (type))))
       (struct_field
         (field_name)
-        (ERROR)
-        (type))
+        (type
+          (array
+            (ERROR)
+            (type))))
       (struct_field
         (field_name)
-        (ERROR)
-        (type))))
+        (type
+          (dict
+            (ERROR)
+            (type))))))
   (eol))

@@ -1,7 +1,7 @@
 (
   (comment)* @doc
   .
-  (interface_decl name: (_) @name) @definition.interface
+  (interface_declaration name: (_) @name) @definition.interface
   (#strip! @doc "^# ?")
   (#select-adjacent! @doc @definition.interface)
 )

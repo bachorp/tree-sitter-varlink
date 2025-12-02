@@ -13,6 +13,7 @@ method MyMethod () -> (
     f: float,
     s: string,
     o: object,
+    d: [string]int,
     a: ?[]()
 )
 
@@ -21,37 +22,53 @@ error MyError ()
 ---
 (interface
   (comment)
-  (interface_decl
+  (eol)
+  (interface_declaration
     (interface_name))
+  (eol)
   (eol)
   (typedef
     (name)
     (enum
       (field_name)))
   (eol)
+  (eol)
   (method
     (name)
     (struct)
     (struct
+      (eol)
       (struct_field
         (field_name)
         (type
           (name)))
+      (eol)
       (struct_field
         (field_name)
         (type))
+      (eol)
       (struct_field
         (field_name)
         (type))
+      (eol)
       (struct_field
         (field_name)
         (type))
+      (eol)
       (struct_field
         (field_name)
         (type))
+      (eol)
       (struct_field
         (field_name)
         (type))
+      (eol)
+      (struct_field
+        (field_name)
+        (type
+          (dict
+          (type))))
+      (eol)
       (struct_field
         (field_name)
         (type
@@ -59,7 +76,9 @@ error MyError ()
             (type
               (array
                 (type
-                  (struct)))))))))
+                  (struct)))))))
+      (eol)))
+  (eol)
   (eol)
   (error
     (name)

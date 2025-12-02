@@ -1,88 +1,109 @@
 /// <reference types="tree-sitter-cli/dsl" />
 // @ts-check
 
-// @ts-ignore
-const seq_or_single = (c) => (c.length === 1 ? c[0] : seq(...c));
-
-// @ts-ignore
-const seq_0i = (name, f) => {
-  const obj = {};
-  // @ts-ignore
-  obj[name] = ($) => seq_or_single(f($));
-  // @ts-ignore
-  obj[name + "_i"] = ($) => {
-    const [head, ...tail] = f($);
-    return seq_or_single([token.immediate(head), ...tail]);
-  };
-  return obj;
-};
-
 module.exports = grammar({
   name: "varlink",
-  extras: ($) => [/[ \t\n]/, /\r\n/, $.comment],
+  // interface_declaration/typedef/error/method must be separated by newlines
+  // when a newline is encountered, we don't yet know whether another definition will follow
+  conflicts: ($) => [[$._, $._eventually_eol]],
+  extras: (_) => [],
   rules: {
     interface: ($) =>
       seq(
-        field("declaration", $.interface_decl),
-        $.eol,
-        repeat(seq(choice($.typedef, $.error, $.method), $.eol))
+        repeat($._),
+        field("interface_declaration", $.interface_declaration),
+        repeat(seq($._eventually_eol, choice($.typedef, $.error, $.method))),
+        repeat($._)
       ),
-    eol: (_) => token(choice("\n", "\r\n")),
-    interface_decl: ($) =>
-      seq("interface", $._separator, field("name", $.interface_name)),
+
+    _: ($) => choice($._hspace, $.comment, $.eol),
+    _eventually_eol: ($) =>
+      seq(repeat(choice($._hspace, $.comment)), $.eol, repeat($._)),
+
+    _hspace: (_) => /[ \t]+/,
+    comment: (_) => /#[^\n\r]*/,
+    eol: (_) => /\n|\r\n/,
+
+    interface_declaration: ($) =>
+      seq("interface", repeat1($._), field("name", $.interface_name)),
+
     typedef: ($) =>
       seq(
         "type",
-        $._separator,
+        repeat1($._),
         field("name", $.name),
+        repeat($._),
         field("value", choice($.struct, $.enum))
       ),
+
     error: ($) =>
       seq(
         "error",
-        $._separator,
+        repeat1($._),
         field("name", $.name),
+        repeat($._),
         field("value", $.struct)
       ),
+
     method: ($) =>
       seq(
         "method",
-        $._separator,
+        repeat1($._),
         field("name", $.name),
+        repeat($._),
         field("arg_type", $.struct),
+        repeat($._),
         "->",
+        repeat($._),
         field("return_type", $.struct)
       ),
 
-    // @ts-ignore
-    ...seq_0i("struct", ($) => [
-      "(",
-      optional(
-        seq(
-          field("member", $.struct_field),
-          repeat(seq(",", field("member", $.struct_field)))
-        )
-      ),
-      ")",
-    ]),
-    struct_field: ($) =>
-      seq(field("name", $.field_name), ":", field("value_type", $.type)),
-
-    // @ts-ignore
-    ...seq_0i("enum", ($) => [
-      "(",
+    struct: ($) =>
       seq(
-        field("member", $.field_name),
-        repeat(seq(",", field("member", $.field_name)))
+        "(",
+        repeat($._),
+        optional(
+          seq(
+            field("member", $.struct_field),
+            repeat($._),
+            repeat(
+              seq(
+                ",",
+                repeat($._),
+                field("member", $.struct_field),
+                repeat($._)
+              )
+            )
+          )
+        ),
+        ")"
       ),
-      ")",
-    ]),
+
+    struct_field: ($) =>
+      seq(
+        field("name", $.field_name),
+        repeat($._),
+        ":",
+        repeat($._),
+        field("value_type", $.type)
+      ),
+
+    enum: ($) =>
+      seq(
+        "(",
+        repeat($._),
+        seq(
+          field("member", $.field_name),
+          repeat($._),
+          repeat(
+            seq(",", repeat($._), field("member", $.field_name), repeat($._))
+          )
+        ),
+        ")"
+      ),
 
     type: ($) => choice($.maybe, $._just),
-    type_i: ($) => choice(alias($.maybe_i, $.maybe), $._just_i),
-
-    // @ts-ignore
-    ...seq_0i("maybe", ($) => ["?", field("just", alias($._just_i, $.type))]),
+    maybe: ($) => seq("?", field("just", $.type)),
 
     _just: ($) =>
       choice(
@@ -97,49 +118,23 @@ module.exports = grammar({
         $.array,
         $.dict
       ),
-    _just_i: ($) =>
-      choice(
-        alias($.name_i, $.name),
-        token.immediate("bool"),
-        token.immediate("int"),
-        token.immediate("float"),
-        token.immediate("string"),
-        token.immediate("object"),
-        alias($.struct_i, $.struct),
-        alias($.enum_i, $.enum),
-        alias($.array_i, $.array),
-        alias($.dict_i, $.dict)
-      ),
 
-    // @ts-ignore
-    ...seq_0i("dict", ($) => [
-      "[",
-      token.immediate("string"),
-      token.immediate("]"),
-      field("value_type", alias($.type_i, $.type)),
-    ]),
+    dict: ($) => seq("[", "string", "]", field("value_type", $.type)),
+    array: ($) => seq("[", "]", field("member_type", $.type)),
 
-    // @ts-ignore
-    ...seq_0i("array", ($) => [
-      "[",
-      token.immediate("]"),
-      field("member_type", alias($.type_i, $.type)),
-    ]),
+    // letters + numbers,
+    //  starting with a capital letter
+    name: ($) => /[A-Z][a-zA-Z0-9]*/,
 
-    // @ts-ignore
-    // letters + numbers, starting with a capital letter
-    ...seq_0i("name", (_) => [/[A-Z][a-zA-Z0-9]*/]),
-
-    // letters + numbers + underscores, starting with a letter, no consecutive or trailing underscores
+    // letters + numbers + underscores,
+    //  starting with a letter,
+    //  no consecutive or trailing underscores
     field_name: (_) => /[a-zA-Z](_?[a-zA-Z0-9])*/,
 
-    // at least two dot-separated components of letters + numbers + dashes, first component starting with a letter, no initial or trailing dashes
+    // at least two dot-separated components of letters + numbers + dashes,
+    //  first component starting with a letter,
+    //  no initial or trailing dashes
     interface_name: (_) =>
       /[a-zA-Z](-*[a-zA-Z0-9])*(\.[a-zA-Z0-9](-*[a-zA-Z0-9])*)+/,
-
-    comment: (_) => /#[^\r\n]*/,
-    // Cannot use `word`: https://github.com/tree-sitter/tree-sitter/issues/5021
-    // Have to avoid patterns: https://github.com/tree-sitter/tree-sitter/issues/4996
-    _separator: (_) => token(choice(" ", "\t", "\n", "\r\n")),
   },
 });
