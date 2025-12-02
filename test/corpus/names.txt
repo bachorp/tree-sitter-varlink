@@ -1,0 +1,47 @@
+==================
+double underscore
+:error
+==================
+interface a.b
+type T(x__y: int)
+
+---
+(interface
+  (interface_decl
+    (interface_name))
+  (eol))
+
+==================
+too few components
+:error
+==================
+interface abc
+
+---
+
+==================
+starting with number
+:error
+==================
+interface 0abc.xy
+
+---
+
+==================
+leading dash
+:error
+==================
+interface a.-b.c
+
+---
+
+==================
+double dash
+==================
+interface a--b.c
+
+---
+(interface
+  (interface_decl
+    (interface_name))
+  (eol))

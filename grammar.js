@@ -127,10 +127,15 @@ module.exports = grammar({
     ]),
 
     // @ts-ignore
+    // letters + numbers, starting with a capital letter
     ...seq_0i("name", (_) => [/[A-Z][a-zA-Z0-9]*/]),
-    field_name: (_) => /[a-zA-Z]([a-zA-Z0-9_]*[a-zA-Z0-9])?/,
+
+    // letters + numbers + underscores, starting with a letter, no consecutive or trailing underscores
+    field_name: (_) => /[a-zA-Z](_?[a-zA-Z0-9])*/,
+
+    // at least two dot-separated components of letters + numbers + dashes, first component starting with a letter, no initial or trailing dashes
     interface_name: (_) =>
-      /[a-zA-Z]([a-zA-Z0-9-]*[a-zA-Z0-9])?(\.[a-zA-Z0-9]([a-zA-Z0-9-]*[a-zA-Z0-9])?)+/,
+      /[a-zA-Z](-*[a-zA-Z0-9])*(\.[a-zA-Z0-9](-*[a-zA-Z0-9])*)+/,
 
     comment: (_) => /#[^\r\n]*/,
     // Cannot use `word`: https://github.com/tree-sitter/tree-sitter/issues/5021
