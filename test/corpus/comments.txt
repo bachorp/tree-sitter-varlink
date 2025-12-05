@@ -10,6 +10,7 @@ a.b #comment
   (comment)
   (eol)
   (interface_declaration
+    (keyword_interface)
     (comment)
     (eol)
     (interface_name))

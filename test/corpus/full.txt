@@ -24,18 +24,22 @@ error MyError ()
   (comment)
   (eol)
   (interface_declaration
+    (keyword_interface)
     (interface_name))
   (eol)
   (eol)
   (typedef
+    (keyword_type)
     (name)
     (enum
       (field_name)))
   (eol)
   (eol)
   (method
+    (keyword_method)
     (name)
     (struct)
+    (arrow)
     (struct
       (eol)
       (struct_field
@@ -45,34 +49,42 @@ error MyError ()
       (eol)
       (struct_field
         (field_name)
-        (type))
+        (type
+          (bool)))
       (eol)
       (struct_field
         (field_name)
-        (type))
+        (type
+          (int)))
       (eol)
       (struct_field
         (field_name)
-        (type))
+        (type
+          (float)))
       (eol)
       (struct_field
         (field_name)
-        (type))
+        (type
+          (string)))
       (eol)
       (struct_field
         (field_name)
-        (type))
+        (type
+          (object)))
       (eol)
       (struct_field
         (field_name)
         (type
           (dict
-          (type))))
+            (string)
+            (type
+              (int)))))
       (eol)
       (struct_field
         (field_name)
         (type
           (maybe
+            (questionmark)
             (type
               (array
                 (type
@@ -81,6 +93,7 @@ error MyError ()
   (eol)
   (eol)
   (error
+    (keyword_error)
     (name)
     (struct))
   (eol))

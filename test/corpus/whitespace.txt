@@ -6,9 +6,11 @@ type A (a)
 ---
 (interface
   (interface_declaration
+    (keyword_interface)
     (interface_name))
   (eol)
   (typedef
+    (keyword_type)
     (name)
     (enum
       (field_name))))
@@ -30,27 +32,34 @@ type A (x: ? int, y: [] string, z: [string] string)
 ---
 (interface
   (interface_declaration
+    (keyword_interface)
     (interface_name))
   (eol)
   (typedef
+    (keyword_type)
     (name)
     (struct
       (struct_field
         (field_name)
         (type
           (maybe
+            (questionmark)
             (ERROR)
-            (type))))
+            (type
+              (int)))))
       (struct_field
         (field_name)
         (type
           (array
             (ERROR)
-            (type))))
+            (type
+              (string)))))
       (struct_field
         (field_name)
         (type
           (dict
+            (string)
             (ERROR)
-            (type))))))
+            (type
+              (string)))))))
   (eol))

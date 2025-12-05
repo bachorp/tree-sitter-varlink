@@ -7,6 +7,7 @@ type T(x__y: int)
 
 ---
 (interface
+   (keyword_interface)
   (interface_declaration
     (interface_name))
   (eol))
@@ -43,5 +44,6 @@ interface a--b.c
 ---
 (interface
   (interface_declaration
+    (keyword_interface)
     (interface_name))
   (eol))

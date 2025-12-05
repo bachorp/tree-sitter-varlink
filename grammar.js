@@ -11,7 +11,7 @@ module.exports = grammar({
     interface: ($) =>
       seq(
         repeat($._),
-        field("interface_declaration", $.interface_declaration),
+        field("declaration", $.interface_declaration),
         repeat(seq($._eventually_eol, choice($.typedef, $.error, $.method))),
         repeat($._)
       ),
@@ -24,38 +24,47 @@ module.exports = grammar({
     comment: (_) => /#[^\n\r]*/,
     eol: (_) => /\n|\r\n/,
 
+    keyword_interface: (_) => "interface",
     interface_declaration: ($) =>
-      seq("interface", repeat1($._), field("name", $.interface_name)),
+      seq(
+        field("keyword", $.keyword_interface),
+        repeat1($._),
+        field("name", $.interface_name)
+      ),
 
+    keyword_type: (_) => "type",
     typedef: ($) =>
       seq(
-        "type",
+        field("keyword", $.keyword_type),
         repeat1($._),
         field("name", $.name),
         repeat($._),
         field("value", choice($.struct, $.enum))
       ),
 
+    keyword_error: (_) => "error",
     error: ($) =>
       seq(
-        "error",
+        field("keyword", $.keyword_error),
         repeat1($._),
         field("name", $.name),
         repeat($._),
         field("value", $.struct)
       ),
 
+    keyword_method: (_) => "method",
+    arrow: (_) => "->",
     method: ($) =>
       seq(
-        "method",
+        field("keyword", $.keyword_method),
         repeat1($._),
         field("name", $.name),
         repeat($._),
-        field("arg_type", $.struct),
+        field("input", $.struct),
         repeat($._),
-        "->",
+        field("arrow", $.arrow),
         repeat($._),
-        field("return_type", $.struct)
+        field("output", $.struct)
       ),
 
     struct: ($) =>
@@ -85,7 +94,7 @@ module.exports = grammar({
         repeat($._),
         ":",
         repeat($._),
-        field("value_type", $.type)
+        field("value", $.type)
       ),
 
     enum: ($) =>
@@ -103,28 +112,36 @@ module.exports = grammar({
       ),
 
     type: ($) => choice($.maybe, $._just),
-    maybe: ($) => seq("?", field("just", $.type)),
+    questionmark: (_) => "?",
+    maybe: ($) =>
+      seq(field("questionmark", $.questionmark), field("just", $.type)),
 
     _just: ($) =>
       choice(
-        $.name,
-        "bool",
-        "int",
-        "float",
-        "string",
-        "object",
         $.struct,
         $.enum,
         $.array,
-        $.dict
+        $.dict,
+        $.bool,
+        $.int,
+        $.float,
+        $.string,
+        $.object,
+        $.name
       ),
 
-    dict: ($) => seq("[", "string", "]", field("value_type", $.type)),
-    array: ($) => seq("[", "]", field("member_type", $.type)),
+    array: ($) => seq("[", "]", field("type", $.type)),
+    dict: ($) => seq("[", $.string, "]", field("type", $.type)),
+
+    bool: (_) => "bool",
+    int: (_) => "int",
+    float: (_) => "float",
+    string: (_) => "string",
+    object: (_) => "object",
 
     // letters + numbers,
     //  starting with a capital letter
-    name: ($) => /[A-Z][a-zA-Z0-9]*/,
+    name: (_) => /[A-Z][a-zA-Z0-9]*/,
 
     // letters + numbers + underscores,
     //  starting with a letter,
