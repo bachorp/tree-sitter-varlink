@@ -9,7 +9,7 @@
 (method name: (name) @entity.name.function.varlink)
 (error name: (name) @entity.name.error-type.varlink)
 (typedef name: (name) @entity.name.type.varlink)
-(type (name) @entity.name.type.varlink)
+(typeref (name) @entity.name.type.varlink)
 (struct_field name: (_) @entity.other.attribute-name.varlink)
 (enum member: (_) @string.unquoted.enum-member.varlink)
 

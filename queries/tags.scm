@@ -26,4 +26,4 @@
   (#strip! @doc "^# ?")
   (#select-adjacent! @doc @definition.method)
 )
-(type (name) @name) @reference.type
+(typeref (name) @name) @reference.type

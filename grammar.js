@@ -127,7 +127,7 @@ module.exports = grammar({
         $.float,
         $.string,
         $.object,
-        $.name
+        $.typeref
       ),
 
     array: ($) => seq("[", "]", field("type", $.type)),
@@ -138,6 +138,8 @@ module.exports = grammar({
     float: (_) => "float",
     string: (_) => "string",
     object: (_) => "object",
+
+    typeref: ($) => $.name,
 
     // letters + numbers,
     //  starting with a capital letter

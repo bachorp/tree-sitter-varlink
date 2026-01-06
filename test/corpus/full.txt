@@ -45,7 +45,8 @@ error MyError ()
       (struct_field
         (field_name)
         (type
-          (name)))
+          (typeref
+            (name))))
       (eol)
       (struct_field
         (field_name)
