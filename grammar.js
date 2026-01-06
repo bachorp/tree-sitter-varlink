@@ -21,8 +21,8 @@ module.exports = grammar({
       seq(repeat(choice($._hspace, $.comment)), $.eol, repeat($._)),
 
     _hspace: (_) => /[ \t]+/,
-    comment: (_) => /#[^\n\r]*/,
-    eol: (_) => /\n|\r\n/,
+    comment: (_) => /#[^\n]*/,
+    eol: (_) => /\n/,
 
     keyword_interface: (_) => "interface",
     interface_declaration: ($) =>
