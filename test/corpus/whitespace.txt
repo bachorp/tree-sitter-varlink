@@ -8,7 +8,6 @@ type A (a)
   (interface_declaration
     (keyword_interface)
     (interface_name))
-  (eol)
   (typedef
     (keyword_type)
     (name)
@@ -34,7 +33,6 @@ type A (x: ? int, y: [] string, z: [string] string)
   (interface_declaration
     (keyword_interface)
     (interface_name))
-  (eol)
   (typedef
     (keyword_type)
     (name)
@@ -61,5 +59,4 @@ type A (x: ? int, y: [] string, z: [string] string)
             (string)
             (ERROR)
             (type
-              (string)))))))
-  (eol))
+              (string))))))))
