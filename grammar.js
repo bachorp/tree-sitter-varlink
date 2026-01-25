@@ -16,13 +16,13 @@ module.exports = grammar({
         repeat($._)
       ),
 
-    _: ($) => choice($._hspace, $.comment, $.eol),
+    _: ($) => choice($._hspace, $.comment, $._eol),
     _eventually_eol: ($) =>
-      seq(repeat(choice($._hspace, $.comment)), $.eol, repeat($._)),
+      seq(repeat(choice($._hspace, $.comment)), $._eol, repeat($._)),
 
     _hspace: (_) => /[ \t]+/,
     comment: (_) => /#[^\n]*/,
-    eol: (_) => /\n/,
+    _eol: (_) => /\n/,
 
     keyword_interface: (_) => "interface",
     interface_declaration: ($) =>
