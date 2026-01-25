@@ -127,6 +127,7 @@ module.exports = grammar({
         $.float,
         $.string,
         $.object,
+        $.any,
         $.typeref
       ),
 
@@ -138,6 +139,7 @@ module.exports = grammar({
     float: (_) => "float",
     string: (_) => "string",
     object: (_) => "object",
+    any: (_) => "any",
 
     typeref: ($) => $.name,
 
