@@ -3,17 +3,20 @@
 
 module.exports = grammar({
   name: "varlink",
-  // interface_declaration/typedef/error/method must be separated by newlines
-  // when a newline is encountered, we don't yet know whether another definition will follow
-  conflicts: ($) => [[$._, $._eventually_eol]],
+  conflicts: ($) => [
+    // interface_declaration/typedef/error/method must be separated by newlines
+    // when a newline is encountered, we don't yet know whether another definition will follow
+    [$._, $._eventually_eol],
+    [$.enum_member_name, $.struct_field_name],
+  ],
   extras: (_) => [],
   rules: {
     interface: ($) =>
       seq(
         repeat($._),
         field("declaration", $.interface_declaration),
-        repeat(seq($._eventually_eol, choice($.typedef, $.error, $.method))),
-        repeat($._)
+        repeat(seq($._eventually_eol, $.declaration)),
+        repeat($._),
       ),
 
     _: ($) => choice($._hspace, $.comment, $._eol),
@@ -24,12 +27,14 @@ module.exports = grammar({
     comment: (_) => /#[^\n]*/,
     _eol: (_) => /\n/,
 
+    declaration: ($) => choice($.typedef, $.error, $.method),
+
     keyword_interface: (_) => "interface",
     interface_declaration: ($) =>
       seq(
         field("keyword", $.keyword_interface),
         repeat1($._),
-        field("name", $.interface_name)
+        field("name", $.interface_name),
       ),
 
     keyword_type: (_) => "type",
@@ -37,9 +42,9 @@ module.exports = grammar({
       seq(
         field("keyword", $.keyword_type),
         repeat1($._),
-        field("name", $.name),
+        field("name", $.typedef_name),
         repeat($._),
-        field("value", choice($.struct, $.enum))
+        field("value", choice($.struct, $.enum)),
       ),
 
     keyword_error: (_) => "error",
@@ -47,9 +52,9 @@ module.exports = grammar({
       seq(
         field("keyword", $.keyword_error),
         repeat1($._),
-        field("name", $.name),
+        field("name", $.error_name),
         repeat($._),
-        field("value", $.struct)
+        field("value", $.struct),
       ),
 
     keyword_method: (_) => "method",
@@ -58,13 +63,13 @@ module.exports = grammar({
       seq(
         field("keyword", $.keyword_method),
         repeat1($._),
-        field("name", $.name),
+        field("name", $.method_name),
         repeat($._),
         field("input", $.struct),
         repeat($._),
         field("arrow", $.arrow),
         repeat($._),
-        field("output", $.struct)
+        field("output", $.struct),
       ),
 
     struct: ($) =>
@@ -80,21 +85,21 @@ module.exports = grammar({
                 ",",
                 repeat($._),
                 field("member", $.struct_field),
-                repeat($._)
-              )
-            )
-          )
+                repeat($._),
+              ),
+            ),
+          ),
         ),
-        ")"
+        ")",
       ),
 
     struct_field: ($) =>
       seq(
-        field("name", $.field_name),
+        field("name", $.struct_field_name),
         repeat($._),
         ":",
         repeat($._),
-        field("value", $.type)
+        field("value", $.type),
       ),
 
     enum: ($) =>
@@ -102,13 +107,13 @@ module.exports = grammar({
         "(",
         repeat($._),
         seq(
-          field("member", $.field_name),
+          field("member", $.enum_member_name),
           repeat($._),
           repeat(
-            seq(",", repeat($._), field("member", $.field_name), repeat($._))
-          )
+            seq(",", repeat($._), field("member", $.enum_member_name), repeat($._)),
+          ),
         ),
-        ")"
+        ")",
       ),
 
     type: ($) => choice($.maybe, $._just),
@@ -128,7 +133,7 @@ module.exports = grammar({
         $.string,
         $.object,
         $.any,
-        $.typeref
+        $.typeref,
       ),
 
     array: ($) => seq("[", "]", field("type", $.type)),
@@ -141,7 +146,12 @@ module.exports = grammar({
     object: (_) => "object",
     any: (_) => "any",
 
+    typedef_name: ($) => $.name,
+    error_name: ($) => $.name,
+    method_name: ($) => $.name,
     typeref: ($) => $.name,
+    struct_field_name: ($) => $._field_name,
+    enum_member_name: ($) => $._field_name,
 
     // letters + numbers,
     //  starting with a capital letter
@@ -150,7 +160,7 @@ module.exports = grammar({
     // letters + numbers + underscores,
     //  starting with a letter,
     //  no consecutive or trailing underscores
-    field_name: (_) => /[a-zA-Z](_?[a-zA-Z0-9])*/,
+    _field_name: (_) => /[a-zA-Z](_?[a-zA-Z0-9])*/,
 
     // at least two dot-separated components of letters + numbers + dashes,
     //  first component starting with a letter,

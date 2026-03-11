@@ -8,11 +8,13 @@ type A (a)
   (interface_declaration
     (keyword_interface)
     (interface_name))
-  (typedef
-    (keyword_type)
-    (name)
-    (enum
-      (field_name))))
+  (declaration
+    (typedef
+      (keyword_type)
+      (typedef_name
+        (name))
+      (enum
+        (enum_member_name)))))
 
 ==================
 Missing separator
@@ -33,30 +35,32 @@ type A (x: ? int, y: [] string, z: [string] string)
   (interface_declaration
     (keyword_interface)
     (interface_name))
-  (typedef
-    (keyword_type)
-    (name)
-    (struct
-      (struct_field
-        (field_name)
-        (type
-          (maybe
-            (questionmark)
-            (ERROR)
-            (type
-              (int)))))
-      (struct_field
-        (field_name)
-        (type
-          (array
-            (ERROR)
-            (type
-              (string)))))
-      (struct_field
-        (field_name)
-        (type
-          (dict
-            (string)
-            (ERROR)
-            (type
-              (string))))))))
+  (declaration
+    (typedef
+      (keyword_type)
+      (typedef_name
+        (name))
+      (struct
+        (struct_field
+          (struct_field_name)
+          (type
+            (maybe
+              (questionmark)
+              (ERROR)
+              (type
+                (int)))))
+        (struct_field
+          (struct_field_name)
+          (type
+            (array
+              (ERROR)
+              (type
+                  (string)))))
+        (struct_field
+          (struct_field_name)
+          (type
+            (dict
+              (string)
+              (ERROR)
+              (type
+                (string)))))))))
