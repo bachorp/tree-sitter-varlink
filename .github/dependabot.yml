@@ -6,7 +6,7 @@ updates:
       interval: weekly
       day: saturday
     commit-message:
-      prefix: ci
+      prefix: deps(github-actions)
     labels:
       - dependencies
     groups:
@@ -21,7 +21,7 @@ updates:
       interval: weekly
       day: sunday
     commit-message:
-      prefix: build(deps)
+      prefix: deps(npm)
     labels:
       - dependencies
     groups:
@@ -35,7 +35,7 @@ updates:
       interval: weekly
       day: sunday
     commit-message:
-      prefix: build(deps)
+      prefix: deps(cargo)
     labels:
       - dependencies
     groups:
