@@ -29,7 +29,7 @@ jobs:
           tar cvzf "${{github.event.repository.name}}.tar.gz" -T <(sort -u files)
 
       - run: tree-sitter build --wasm
-      - uses: softprops/action-gh-release@a06a81a03ee405af7f2048a818ed3f03bbf83c7b # v2.5.0
+      - uses: softprops/action-gh-release@153bb8e04406b158c6c84fc1615b65b24149a1fe # v2.6.1
         with:
           name: "${{ github.ref_name }}"
           files: |
@@ -39,7 +39,7 @@ jobs:
           fail_on_unmatched_files: true
           draft: true
 
-      - uses: rust-lang/crates-io-auth-action@b7e9a28eded4986ec6b1fa40eeee8f8f165559ec # v1.0.3
+      - uses: rust-lang/crates-io-auth-action@bbd81622f20ce9e2dd9622e3218b975523e45bbe # v1.0.4
         id: auth
 
       - run: cargo publish --allow-dirty
