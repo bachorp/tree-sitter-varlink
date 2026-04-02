@@ -127,13 +127,18 @@ module.exports = grammar({
         $.enum,
         $.array,
         $.dict,
+        $._builtin,
+        $.typeref,
+      ),
+
+    _builtin: ($) =>
+      choice(
         $.bool,
         $.int,
         $.float,
         $.string,
         $.object,
         $.any,
-        $.typeref,
       ),
 
     array: ($) => seq("[", "]", field("type", $.type)),
@@ -151,7 +156,7 @@ module.exports = grammar({
     method_name: ($) => $.name,
     typeref: ($) => $.name,
     struct_field_name: ($) => $._field_name,
-    enum_member_name: ($) => $._field_name,
+    enum_member_name: ($) => choice($._builtin, $._field_name),
 
     // letters + numbers,
     //  starting with a capital letter
