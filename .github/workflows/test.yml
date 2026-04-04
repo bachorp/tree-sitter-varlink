@@ -8,7 +8,7 @@ jobs:
       - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
       - uses: tree-sitter/setup-action/cli@eeb902ac2f1be576edc296309872cf476a209b7f # v2
         with:
-          tree-sitter-ref: v0.26.6
+          tree-sitter-ref: v0.26.8
           rust-toolchain: 1.93.1
 
       - uses: tree-sitter/parser-test-action@05f6ce7c7e54603c45cd87ed926725dc870bcc63 # v3
