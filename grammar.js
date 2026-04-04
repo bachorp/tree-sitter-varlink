@@ -102,6 +102,7 @@ module.exports = grammar({
         field("value", $.type),
       ),
 
+    // NOTE: There is no empty enum, i.e. `()` is a struct
     enum: ($) =>
       seq(
         "(",
