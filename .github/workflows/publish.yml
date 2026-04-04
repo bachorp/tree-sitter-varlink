@@ -15,7 +15,7 @@ jobs:
       - uses: tree-sitter/setup-action/cli@eeb902ac2f1be576edc296309872cf476a209b7f # v2
         with:
           tree-sitter-ref: v0.26.8
-          rust-toolchain: 1.93.1
+          rust-toolchain: 1.94.1
 
       - uses: mymindstorm/setup-emsdk@6ab9eb1bda2574c4ddb79809fc9247783eaf9021 # v14
         with:

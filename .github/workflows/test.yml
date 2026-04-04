@@ -9,7 +9,7 @@ jobs:
       - uses: tree-sitter/setup-action/cli@eeb902ac2f1be576edc296309872cf476a209b7f # v2
         with:
           tree-sitter-ref: v0.26.8
-          rust-toolchain: 1.93.1
+          rust-toolchain: 1.94.1
 
       - run: tree-sitter generate && { [ "$(git status --porcelain)" = "" ] || { git status --porcelain; git diff; exit 1; } }
       - uses: tree-sitter/parser-test-action@05f6ce7c7e54603c45cd87ed926725dc870bcc63 # v3
