@@ -21,7 +21,6 @@ jobs:
         with:
           version: 3.1.74
 
-      - run: tree-sitter generate
       - name: Create source tarball
         run: |
           git ls-files > files
