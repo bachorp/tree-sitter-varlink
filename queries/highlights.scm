@@ -19,6 +19,7 @@
     (float)
     (string)
     (object)
+    (any)
 ] @support.type.primitive.varlink
 
 [

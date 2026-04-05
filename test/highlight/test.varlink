@@ -30,7 +30,10 @@ method M () -> (
     o: object,
 #      ^ support.type.primitive.varlink
 
-    a: ?[]()
+    a: any,
+#      ^ support.type.primitive.varlink
+
+    x: ?[]()
 #      ^ keyword.operator.nullable.varlink
 #       ^ punctuation.brackets.square.varlink
 #        ^ punctuation.brackets.square.varlink
