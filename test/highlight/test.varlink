@@ -1,49 +1,49 @@
 interface a.b
-# <- keyword.control.interface.varlink
-#         ^ string.unquoted.interface.varlink
+# <- keyword.interface
+#         ^ entity.interface
 
 method M () -> (
-# <- keyword.other.method.varlink
-#      ^ entity.name.function.varlink
-#        ^ punctuation.brackets.round.varlink
-#         ^ punctuation.brackets.round.varlink
-#           ^ storage.type.function.arrow.varlink
+# <- keyword.method
+#      ^ entity.method
+#        ^ punctuation
+#         ^ punctuation
+#           ^ operator
 
     t: T,
-#   ^ entity.other.attribute-name.varlink
-#    ^ keyword.operator.key-value.varlink
-#      ^ entity.name.type.varlink
-#       ^ punctuation.separator.comma.varlink
+#   ^ entity.attribute-name
+#    ^ punctuation
+#      ^ entity.type
+#       ^ punctuation
 
     b: bool,
-#      ^ support.type.primitive.varlink
+#      ^ type.primitive
 
     i: int,
-#      ^ support.type.primitive.varlink
+#      ^ type.primitive
 
     f: float,
-#      ^ support.type.primitive.varlink
+#      ^ type.primitive
 
     s: string,
-#      ^ support.type.primitive.varlink
+#      ^ type.primitive
 
     o: object,
-#      ^ support.type.primitive.varlink
+#      ^ type.primitive
 
     a: any,
-#      ^ support.type.primitive.varlink
+#      ^ type.primitive
 
     x: ?[]()
-#      ^ keyword.operator.nullable.varlink
-#       ^ punctuation.brackets.square.varlink
-#        ^ punctuation.brackets.square.varlink
+#      ^ operator
+#       ^ punctuation
+#        ^ punctuation
 )
 
 type T (a)
-# <- keyword.other.typedef.varlink
-#    ^ entity.name.type.varlink
-#       ^ string.unquoted.enum-member.varlink
+# <- keyword.type
+#    ^ entity.type
+#       ^ entity.enum-member
 
 error E ()
-# <- keyword.other.error.varlink
-#     ^ entity.name.error-type.varlink
+# <- keyword.error
+#     ^ entity.error

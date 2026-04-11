@@ -1,17 +1,17 @@
-(comment) @comment.line.number-sign.varlink
+(comment) @comment
 
-(keyword_interface) @keyword.control.interface.varlink
-(keyword_type) @keyword.other.typedef.varlink
-(keyword_method) @keyword.other.method.varlink
-(keyword_error) @keyword.other.error.varlink
+(keyword_interface) @keyword.interface
+(keyword_type) @keyword.type
+(keyword_method) @keyword.method
+(keyword_error) @keyword.error
 
-(interface_name) @string.unquoted.interface.varlink
-(method name: (_) @entity.name.function.varlink)
-(error name: (_) @entity.name.error-type.varlink)
-(typedef name: (_) @entity.name.type.varlink)
-(typeref (name) @entity.name.type.varlink)
-(struct_field name: (_) @entity.other.attribute-name.varlink)
-(enum member: (_) @string.unquoted.enum-member.varlink)
+(interface_name) @entity.interface
+(method name: (_) @entity.method)
+(error name: (_) @entity.error)
+(typedef name: (_) @entity.type)
+(typeref (name) @entity.type)
+(struct_field name: (_) @entity.attribute-name)
+(enum member: (_) @entity.enum-member)
 
 [
     (bool)
@@ -20,19 +20,18 @@
     (string)
     (object)
     (any)
-] @support.type.primitive.varlink
+] @type.primitive
 
 [
     "("
     ")"
-] @punctuation.brackets.round.varlink
-
-[
     "["
     "]"
-] @punctuation.brackets.square.varlink
+    ","
+    ":"
+] @punctuation
 
-"," @punctuation.separator.comma.varlink
-(questionmark) @keyword.operator.nullable.varlink
-":" @keyword.operator.key-value.varlink
-(arrow) @storage.type.function.arrow.varlink
+[
+    (questionmark)
+    (arrow)
+] @operator
